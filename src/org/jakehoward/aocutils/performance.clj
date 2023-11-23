@@ -3,9 +3,6 @@
   (:require [nextjournal.clerk :as clerk]
             [criterium.core :refer [quick-bench]]))
 
-{:nextjournal.clerk/visibility {:code :hide :result :hide}}
-(defonce x (clerk/serve! {:watch-paths ["src"] :browse true}))
-
 ;; # Performance
 ;;
 ;; ⚠️ Performance testing is hard. Clojure has many traps when it comes
