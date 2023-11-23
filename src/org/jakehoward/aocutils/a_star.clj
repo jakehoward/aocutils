@@ -1,6 +1,7 @@
 {:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (ns org.jakehoward.aocutils.a-star
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [nextjournal.clerk :as clerk]))
 
 ;; # A-Star
 
@@ -94,19 +95,48 @@
                [1 1 1 1 1]
                [1 999 999 999 999]
                [1 1 1 1 1]]]
-    (print-viz-a-star [0 0] 1 world 1))
+    (print-viz-a-star [0 0] 1 world 123))
+  (+ 999 124)
+  (+ 9 (* 9 124))
 
   (let [world [[1 1 1 1 1]
                [999 999 1 999 999]
                [1 1 1 1 1]
                [999 999 1 999 999]
                [1 1 1 1 1]]]
-    (print-viz-a-star [0 0] 1 world 1)))
+    (print-viz-a-star [0 0] 9999999 world 9999999)))
+
+;; ## Example usage
+
+;; With this cost to move, the obvious route is taken (you have to expand \* signifies route)
 
 {:nextjournal.clerk/visibility {:code :show :result :show}}
-(let [world [[1,,,1,,,1,,,1,,,1]
-             [999 999 999 999 1]
-             [1,,,1,,,1,,,1,,,1]
-             [1,,,999 999 999 999]
-             [1,,,1,,,1,,,1,,,1]]]
-  (viz-a-star [0 0] 1 world 1))
+(let [step-est    1
+              cost-to-move 1
+              world        [[1,,,1,,,1,,,1,,,1]
+                            [999 999 999 999 1]
+                            [1,,,1,,,1,,,1,,,1]
+                            [1,,,999 999 999 999]
+                            [1,,,1,,,1,,,1,,,1]]]
+           (viz-a-star [0 0] step-est world cost-to-move))
+
+;; Tipping point, just before cost is high enough to change route
+(let [step-est     1
+      cost-to-move 123
+      world        [[1,,,1,,,1,,,1,,,1]
+                    [999 999 999 999 1]
+                    [1,,,1,,,1,,,1,,,1]
+                    [1,,,999 999 999 999]
+                    [1,,,1,,,1,,,1,,,1]]]
+  (viz-a-star [0 0] step-est world cost-to-move))
+
+;; Tip the cost of 9 moves, with cell cost 1 and move cost 124 over the
+;; cost of cell 999  and the algorithm chooses a different path
+(let [step-est     1
+      cost-to-move 124
+      world        [[1,,,1,,,1,,,1,,,1]
+                    [999 999 999 999 1]
+                    [1,,,1,,,1,,,1,,,1]
+                    [1,,,999 999 999 999]
+                    [1,,,1,,,1,,,1,,,1]]]
+  (viz-a-star [0 0] step-est world cost-to-move))
